@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora DV/EBITDA</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f4f4f9;
+            color: #333;
+        }
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+        }
+        .container {
+            max-width: 400px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        label {
+            font-weight: bold;
+            display: block;
+            margin-bottom: 8px;
+        }
+        input[type="number"] {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 16px;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+            font-size: 14px;
+        }
+        button {
+            background-color: #3498db;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            width: 100%;
+        }
+        button:hover {
+            background-color: #2980b9;
+        }
+        .result {
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #eaf2f8;
+            border: 1px solid #d5dbdb;
+            border-radius: 4px;
+        }
+        .result p {
+            margin: 5px 0;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Calculadora DV/EBITDA</h1>
+
+    <div class="container">
+        <label for="ebitda">EBITDA (em milhares):</label>
+        <input type="number" id="ebitda" placeholder="Digite o EBITDA em milhares">
+
+        <label for="ev_ebitda">EV/EBITDA:</label>
+        <input type="number" id="ev_ebitda" placeholder="Digite o valor do EV/EBITDA">
+
+        <label for="valor_mercado">Valor de Mercado (em milhares):</label>
+        <input type="number" id="valor_mercado" placeholder="Digite o valor de mercado em milhares">
+
+        <button onclick="calcularDV_EBITDA()">Calcular</button>
+
+        <div class="result" id="result" style="display: none;">
+            <h3>Resultado:</h3>
+            <p><strong>Enterprise Value (EV):</strong> <span id="ev_value"></span> milhares</p>
+            <p><strong>Dívida Líquida:</strong> <span id="divida_liquida"></span> milhares</p>
+            <p><strong>DV/EBITDA:</strong> <span id="dv_ebitda"></span>x</p>
+        </div>
+    </div>
+
+    <script>
+        function calcularDV_EBITDA() {
+            // Pega os valores dos inputs
+            const ebitda = parseFloat(document.getElementById("ebitda").value);
+            const ev_ebitda = parseFloat(document.getElementById("ev_ebitda").value);
+            const valorMercado = parseFloat(document.getElementById("valor_mercado").value);
+
+            // Valida se todos os campos foram preenchidos corretamente
+            if (isNaN(ebitda) || isNaN(ev_ebitda) || isNaN(valorMercado)) {
+                alert("Por favor, preencha todos os campos com valores válidos.");
+                return;
+            }
+
+            // Calcula o EV (Enterprise Value)
+            const ev = ebitda * ev_ebitda;
+
+            // Calcula a Dívida Líquida
+            const dividaLiquida = ev - valorMercado;
+
+            // Calcula o DV/EBITDA
+            const dvEbitda = dividaLiquida / ebitda;
+
+            // Exibe os resultados na página
+            document.getElementById("ev_value").innerText = ev.toFixed(2);
+            document.getElementById("divida_liquida").innerText = dividaLiquida.toFixed(2);
+            document.getElementById("dv_ebitda").innerText = dvEbitda.toFixed(2);
+
+            // Exibe a seção de resultados
+            document.getElementById("result").style.display = "block";
+        }
+    </script>
+
+</body>
+</html>
